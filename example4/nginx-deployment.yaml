@@ -1,0 +1,64 @@
+apiVersion: apps/v1      
+kind: Deployment          
+metadata:                
+  name: nginx-deployment-a      
+  labels:
+    app: nginx-a                
+spec:                         
+  replicas: 1             
+  selector:                 
+    matchLabels:     
+      app: nginx-a
+  template:
+    metadata:
+      labels:                 
+        app: nginx-a
+    spec:
+      containers:     
+      - name: nginx-a         
+        image: nginx:1.14.2
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: hostvol
+          mountPath: /usr/share/nginx/html
+      volumes:
+      - name: hostvol
+        hostPath:
+          path: /home/data/nginx/html
+          type: Directory
+      nodeSelector:
+        kubernetes.io/hostname: piworker1
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment-b
+  labels:
+    app: nginx-b
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-b
+  template:
+    metadata:
+      labels:
+        app: nginx-b
+    spec:
+      containers:
+      - name: nginx-b
+        image: nginx:1.14.2
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: hostvol
+          mountPath: /usr/share/nginx/html
+      volumes:
+      - name: hostvol
+        hostPath:
+          path: /home/data/nginx/html
+          type: Directory
+      nodeSelector:
+        kubernetes.io/hostname: piworker2

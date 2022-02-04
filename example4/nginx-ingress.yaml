@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nginx-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    kubernates.io/ingress.class: "nginx"
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /a
+            pathType: Prefix
+            backend:
+              service: 
+                name: nginx-svc-a
+                port:
+                  number: 80
+          - path: /b
+            pathType: Prefix
+            backend:
+              service:
+                name: nginx-svc-b
+                port:
+                  number: 32001

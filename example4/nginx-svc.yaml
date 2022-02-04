@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-svc-a
+spec:
+  ports:
+  - name: http
+    port: 80
+    targetPort: http
+  selector:
+    app: nginx-a
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-svc-b
+spec:
+  ports:
+  - port: 80
+    targetPort: 80
+    nodePort: 32001
+    protocol: TCP
+  selector:
+    app: nginx-b
+  type: NodePort
+
